@@ -14,6 +14,10 @@ interface Event {
   start: Date | string;
   allDay: boolean;
   id: number;
+  bookingNo: string;
+  villaName: string;
+  guestName: string;
+  guestNumber: string;
 }
 
 export default function Home() {
@@ -32,7 +36,11 @@ export default function Home() {
     title: '',
     start: '',
     allDay: false,
-    id: 0
+    id: 0,
+    bookingNo: '',
+    villaName: '',
+    guestName: '',
+    guestNumber: ''
   })
 
   useEffect(() => {
@@ -51,7 +59,7 @@ export default function Home() {
   }, [])
 
   function handleDateClick(arg: { date: Date, allDay: boolean }) {
-    setNewEvent({ ...newEvent, start: arg.date, allDay: arg.allDay, id: new Date().getTime() })
+    setNewEvent({ ...newEvent, start: arg.date, allDay: arg.allDay, id: new Date().getTime(), bookingNo: '', villaName: '', guestName: '', guestNumber: ''})
     setShowModal(true)
   }
 
@@ -77,16 +85,20 @@ export default function Home() {
       title: '',
       start: '',
       allDay: false,
-      id: 0
+      id: 0,
+      bookingNo: '',
+      villaName: '',
+      guestName: '',
+      guestNumber: ''
     })
     setShowDeleteModal(false)
     setIdToDelete(null)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: string): void => {
     setNewEvent({
       ...newEvent,
-      title: e.target.value
+      [field]: e.target.value
     })
   }
 
@@ -98,7 +110,11 @@ export default function Home() {
       title: '',
       start: '',
       allDay: false,
-      id: 0
+      id: 0,
+      bookingNo: '',
+      villaName: '',
+      guestName: '',
+      guestNumber: ''
     })
   }
 
@@ -243,7 +259,7 @@ export default function Home() {
                       </div>
                       <div className="mt-3 text-center sm:mt-5">
                         <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                          Add Event
+                          Add Booking
                         </Dialog.Title>
                         <form action="submit" onSubmit={handleSubmit}>
                           <div className="mt-2">
@@ -252,8 +268,36 @@ export default function Home() {
                             focus:ring-2 
                             focus:ring-inset focus:ring-violet-600 
                             sm:text-sm sm:leading-6"
-                              value={newEvent.title} onChange={(e) => handleChange(e)} placeholder="Title" />
+                            onChange={(e) => handleChange(e, 'title')} placeholder="Title" />
                           </div>
+
+            
+                          <div className="mt-2">
+                          <input type="text" name="bookingNo" className="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                          shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                          focus:ring-inset focus:ring-violet-600 sm:text-sm sm:leading-6" value={newEvent.bookingNo} 
+                          onChange={(e) => handleChange(e, 'bookingNo')} placeholder="Booking No" />
+                        </div>
+                          <div className="mt-2">
+                            <input type="text" name="villaName" className="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                            shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                            focus:ring-inset focus:ring-violet-600 sm:text-sm sm:leading-6" value={newEvent.villaName} 
+                            onChange={(e) => handleChange(e, 'villaName')} placeholder="Villa Name" />
+                          </div>
+                            <div className="mt-2">
+                              <input type="text" name="guestName" className="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                              shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                              focus:ring-inset focus:ring-violet-600 sm:text-sm sm:leading-6" value={newEvent.guestName} 
+                              onChange={(e) => handleChange(e, 'guestName')} placeholder="Guest Name" />
+                            </div>
+                            <div className="mt-2">
+                              <input type="text" name="guestNumber" className="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                              shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                              focus:ring-inset focus:ring-violet-600 sm:text-sm sm:leading-6" value={newEvent.guestNumber} 
+                              onChange={(e) => handleChange(e, 'guestNumber')} placeholder="Guest Number" />
+                            </div>
+                          
+
                           <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                             <button
                               type="submit"
